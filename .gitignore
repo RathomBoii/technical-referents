@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+dist/
+*.egg-info/
+
+# Secrets (keep the template)
+.env
+!.env.example
+
+# macOS
+.DS_Store
