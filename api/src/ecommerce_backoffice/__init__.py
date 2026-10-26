@@ -1,2 +1,2 @@
 def main() -> None:
-    print("Hello from geo-api!")
+    print("Hello from ecommerce_backoffice API!")
