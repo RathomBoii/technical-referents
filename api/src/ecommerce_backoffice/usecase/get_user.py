@@ -19,15 +19,15 @@ frozen = True
 
 
 @dataclass(frozen=True)
-class GetUserInput:
+class GetUserByIdInput:
     user_id: UUID
 
 
-class GetUser:
+class GetUserById:
     def __init__(self, repo: UserRepositoryPort):
         self.repo = repo
         
-    def execute(self, get_user_input: GetUserInput) -> User | None:
+    def execute(self, get_user_input: GetUserByIdInput) -> User | None:
         user = self.repo.find_one_by_id(get_user_input.user_id) 
         if not user:
             return None

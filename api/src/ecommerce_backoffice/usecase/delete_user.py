@@ -23,7 +23,7 @@ class DeleteUserInput:
     user_id: UUID
 
 
-class GetUser:
+class DeleteUser:
     def __init__(self, repo: UserRepositoryPort):
         self.repo = repo
         
