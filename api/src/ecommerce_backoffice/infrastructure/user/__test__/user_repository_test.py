@@ -2,6 +2,7 @@ import os
 from datetime import date
 from uuid import uuid4
 
+from ecommerce_backoffice.infrastructure.config import construct_db_url
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
@@ -20,18 +21,14 @@ To switch to MySQL, change:
 - the installed driver (`psycopg` => `pymysql`)
 MySQL also needs an explicit length on `str` columns such as `email` (e.g. `String(255)`).
 """
-# docker run -d --name ecommerce-test-pg -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=ecommerce_test -p 5432:5432 postgres:17
-DATABASE_URL = os.getenv(
-    "TEST_DATABASE_URL",
-    "postgresql+psycopg://postgres:postgres@localhost:5432/ecommerce_test",
-)
 
 """
 scope="session" => the engine and the `users` table are created once per pytest run and dropped after the last test
 """
 @pytest.fixture(scope="session")
 def engine():
-    engine = create_engine(DATABASE_URL)
+    TEST_DB_PREFIX = "TEST_DB"
+    engine = create_engine(construct_db_url(TEST_DB_PREFIX))
     # ⬇️ Models were already registered in `Base.metadata` when `user_model` was imported
     Base.metadata.create_all(engine) # connect to the database, then CREATE TABLE for tables that do not exist yet
     yield engine # hand the engine to the tests; execution resumes here after the last test finishes
